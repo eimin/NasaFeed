@@ -1,10 +1,6 @@
 package com.wtfcompany.nasafeed;
-
 import android.os.AsyncTask;
 import android.util.Log;
-
-import com.bumptech.glide.Glide;
-
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -23,51 +19,52 @@ import javax.xml.parsers.SAXParserFactory;
  */
 
 public class RssLoader extends AsyncTask<String, Void, RssModel> {
+    private final static String TAG = "try";
+    private RssPresenter presenter;
+
+    public RssLoader(RssPresenter presenter){
+        this.presenter = presenter;
+    }
 
     @Override
     protected RssModel doInBackground(String...urlParams) {
-        MainActivity.Handler contentHandler = null;
+        ImageOfTheDayParser imageOfTheDayParser = null;
+        StringBuilder builder = new StringBuilder();
         String result = "";
+
+        //load xml
         try {
             URL url = new URL(urlParams[0]);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line = "";
-            StringBuilder builder = new StringBuilder();
+
+            String line;
             while((line = reader.readLine()) != null) {
                 builder.append(line);
             }
             result = builder.toString();
-
-            try {
-                contentHandler = new MainActivity.Handler();
-                SAXParserFactory.newInstance().newSAXParser().parse((new InputSource(new StringReader(result))), contentHandler);
-
-                Log.d(TAG, "PostExecute. RSSModel. Title: " + contentHandler.data.getTitle());
-                Log.d(TAG, "PostExecute. RSSModel. Date: " + contentHandler.data.getDate());
-                Log.d(TAG, "PostExecute. RSSModel. Description: " + contentHandler.data.getDescription());
-                Log.d(TAG, "PostExecute. RSSModel. ImageLink: " + contentHandler.imageUrl);
-
-            } catch (ParserConfigurationException | SAXException | IOException e) {e.printStackTrace();}
-
         } catch(Exception e) {e.printStackTrace();}
 
+        //parse xml
+        try {
+            imageOfTheDayParser = new ImageOfTheDayParser();
+            SAXParserFactory.newInstance().newSAXParser().parse((new InputSource(new StringReader(result))), imageOfTheDayParser);
+        } catch (ParserConfigurationException | SAXException | IOException e) {e.printStackTrace();}
 
-        return contentHandler.data;
+        return imageOfTheDayParser.data;
 
     }
 
     @Override
     protected void onPreExecute() {
-        //показать лоадер
+        presenter.showProgress();
     }
 
     @Override
     protected void onPostExecute  (RssModel model) {
-        //спрятать лоадер
-
-        Glide.with(MainActivity.this).load(model.ImageUrl).into(image);
+        presenter.onLoadedRss(model);
+        presenter.stopProgress();
 
     }
 }

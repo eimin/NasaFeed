@@ -8,17 +8,20 @@ import android.graphics.Bitmap;
 
 public class RssModel {
 
-    public String date;
-    public String title;
-    public String description;
-    public Bitmap picture;
-    public String ImageUrl;
+    private String date;
+    private String title;
+    private String description;
+    private Bitmap picture;
+
+
+
+    private String imageUrl;
 
     public RssModel(){
         date = "";
         title = "";
         description = "";
-        ImageUrl = "";
+        imageUrl = "";
 
     }
     public String getDate() {
@@ -35,6 +38,15 @@ public class RssModel {
 
     public Bitmap getPicture() {
         return picture;
+    }
+
+
+    public String getImageUrl(){
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public void setDate(String date) {

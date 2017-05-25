@@ -7,28 +7,25 @@ import android.content.Context;
  */
 
 public class RssPresenter {
-    private Context view;
+    private ImageOfTheDayView view;
 
-    public RssPresenter(Context view){
+    public RssPresenter(ImageOfTheDayView view){
         this.view = view;
     }
 
     public void loadRss(){
-        new RssLoader().execute(URLS.ImageOfTheDay);
+        new RssLoader(this).execute(URLS.ImageOfTheDay);
     }
 
+    public void onLoadedRss(RssModel model){
+        view.showData(model);
+    }
 
-
-
-
-
-
-
-
-
-
-    private void parseRss() {
-
+    public void showProgress(){
+        view.showProgress();
+    }
+    public void stopProgress(){
+        view.stopProgress();
     }
 
 
