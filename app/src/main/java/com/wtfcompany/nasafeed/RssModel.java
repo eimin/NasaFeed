@@ -12,9 +12,6 @@ public class RssModel {
     private String title;
     private String description;
     private Bitmap picture;
-
-
-
     private String imageUrl;
 
     public RssModel(){
@@ -24,6 +21,7 @@ public class RssModel {
         imageUrl = "";
 
     }
+
     public String getDate() {
         return date;
     }

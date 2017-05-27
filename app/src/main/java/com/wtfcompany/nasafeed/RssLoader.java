@@ -1,11 +1,15 @@
 package com.wtfcompany.nasafeed;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
@@ -52,19 +56,29 @@ public class RssLoader extends AsyncTask<String, Void, RssModel> {
             SAXParserFactory.newInstance().newSAXParser().parse((new InputSource(new StringReader(result))), imageOfTheDayParser);
         } catch (ParserConfigurationException | SAXException | IOException e) {e.printStackTrace();}
 
-        return imageOfTheDayParser.data;
+        //load image
+        Bitmap bitmap = null;
+        String url = imageOfTheDayParser.data.getImageUrl();
+        try {
+            InputStream stream = (InputStream) new URL(url).getContent();
+            bitmap = BitmapFactory.decodeStream(stream);
+            stream.close();
+        } catch (Exception e) {
+            return null;
+        }
+        Log.d("try", "bitmap is null: " + (bitmap == null));
 
+        imageOfTheDayParser.data.setPicture(bitmap);
+        return imageOfTheDayParser.data;
     }
 
     @Override
     protected void onPreExecute() {
-        presenter.showProgress();
+
     }
 
     @Override
     protected void onPostExecute  (RssModel model) {
         presenter.onLoadedRss(model);
-        presenter.stopProgress();
-
     }
 }
