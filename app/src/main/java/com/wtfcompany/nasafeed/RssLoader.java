@@ -1,19 +1,23 @@
 package com.wtfcompany.nasafeed;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
@@ -23,7 +27,6 @@ import javax.xml.parsers.SAXParserFactory;
  */
 
 public class RssLoader extends AsyncTask<String, Void, RssModel> {
-    private final static String TAG = "try";
     private RssPresenter presenter;
 
     public RssLoader(RssPresenter presenter){
@@ -32,17 +35,14 @@ public class RssLoader extends AsyncTask<String, Void, RssModel> {
 
     @Override
     protected RssModel doInBackground(String...urlParams) {
-        ImageOfTheDayParser imageOfTheDayParser = null;
         StringBuilder builder = new StringBuilder();
         String result = "";
-
         //load xml
         try {
             URL url = new URL(urlParams[0]);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
             String line;
             while((line = reader.readLine()) != null) {
                 builder.append(line);
@@ -51,25 +51,23 @@ public class RssLoader extends AsyncTask<String, Void, RssModel> {
         } catch(Exception e) {e.printStackTrace();}
 
         //parse xml
+        ImageOfTheDayParser parser = null;
         try {
-            imageOfTheDayParser = new ImageOfTheDayParser();
-            SAXParserFactory.newInstance().newSAXParser().parse((new InputSource(new StringReader(result))), imageOfTheDayParser);
+            parser = new ImageOfTheDayParser();
+            InputSource source = new InputSource(new StringReader(result));
+            SAXParserFactory.newInstance().newSAXParser().parse(source, parser);
         } catch (ParserConfigurationException | SAXException | IOException e) {e.printStackTrace();}
 
         //load image
         Bitmap bitmap = null;
-        String url = imageOfTheDayParser.data.getImageUrl();
+        String url = parser.data.getImageUrl();
         try {
-            InputStream stream = (InputStream) new URL(url).getContent();
-            bitmap = BitmapFactory.decodeStream(stream);
-            stream.close();
-        } catch (Exception e) {
-            return null;
-        }
-        Log.d("try", "bitmap is null: " + (bitmap == null));
+            Context context = CurrentContext.getInstance().getContext();
+            bitmap = Glide.with(context).load(url).asBitmap().into(500,500).get();
+        } catch (InterruptedException | ExecutionException e) {e.printStackTrace();}
 
-        imageOfTheDayParser.data.setPicture(bitmap);
-        return imageOfTheDayParser.data;
+        parser.data.setPicture(bitmap);
+        return parser.data;
     }
 
     @Override

@@ -19,7 +19,6 @@ public class RssModel {
         title = "";
         description = "";
         imageUrl = "";
-
     }
 
     public String getDate() {

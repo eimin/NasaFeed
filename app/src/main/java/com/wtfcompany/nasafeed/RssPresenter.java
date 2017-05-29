@@ -8,10 +8,8 @@ import android.content.Context;
 
 public class RssPresenter {
     private ImageOfTheDayView view;
-    private Context ctx;
 
-    public RssPresenter(ImageOfTheDayView view, Context ctx){
-        this.ctx = ctx;
+    public RssPresenter(ImageOfTheDayView view){
         this.view = view;
     }
 
@@ -23,12 +21,5 @@ public class RssPresenter {
     public void onLoadedRss(RssModel model){
         view.stopProgress();
         view.showData(model);
-    }
-
-    public void showProgress(){
-        view.showProgress();
-    }
-    public void stopProgress(){
-        view.stopProgress();
     }
 }
