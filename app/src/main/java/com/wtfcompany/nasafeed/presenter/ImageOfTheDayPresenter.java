@@ -1,4 +1,4 @@
-package com.wtfcompany.nasafeed;
+package com.wtfcompany.nasafeed.presenter;
 
 /**
  * Created by Ijin on 25.05.2017.

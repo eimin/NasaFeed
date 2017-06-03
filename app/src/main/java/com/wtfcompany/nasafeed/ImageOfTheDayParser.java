@@ -1,6 +1,6 @@
 package com.wtfcompany.nasafeed;
 
-import android.util.Log;
+import com.wtfcompany.nasafeed.model.ImageOfTheDayModel;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -13,7 +13,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class ImageOfTheDayParser extends DefaultHandler {
 
     private String currentElement;
-    public RssModel data;
+    public ImageOfTheDayModel data;
     private boolean foundItem = false;
 
     private final static String itemTag = "item";
@@ -25,7 +25,7 @@ public class ImageOfTheDayParser extends DefaultHandler {
 
     public ImageOfTheDayParser() {
         super();
-        data = new RssModel();
+        data = new ImageOfTheDayModel();
     }
 
     @Override

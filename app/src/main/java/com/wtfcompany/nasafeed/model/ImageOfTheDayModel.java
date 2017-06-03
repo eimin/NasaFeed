@@ -1,4 +1,4 @@
-package com.wtfcompany.nasafeed;
+package com.wtfcompany.nasafeed.model;
 
 import android.graphics.Bitmap;
 
@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
  * Created by Ijin on 23.04.2017.
  */
 
-public class RssModel {
+public class ImageOfTheDayModel {
 
     private String date;
     private String title;
@@ -14,7 +14,7 @@ public class RssModel {
     private Bitmap picture;
     private String imageUrl;
 
-    public RssModel(){
+    public ImageOfTheDayModel(){
         date = "";
         title = "";
         description = "";

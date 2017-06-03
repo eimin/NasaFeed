@@ -1,12 +1,11 @@
 package com.wtfcompany.nasafeed;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.wtfcompany.nasafeed.model.ImageOfTheDayModel;
+import com.wtfcompany.nasafeed.presenter.RssPresenter;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -26,7 +25,7 @@ import javax.xml.parsers.SAXParserFactory;
  * Created by Ijin on 23.04.2017.
  */
 
-public class RssLoader extends AsyncTask<String, Void, RssModel> {
+public class RssLoader extends AsyncTask<String, Void, ImageOfTheDayModel> {
     private RssPresenter presenter;
 
     public RssLoader(RssPresenter presenter){
@@ -34,9 +33,10 @@ public class RssLoader extends AsyncTask<String, Void, RssModel> {
     }
 
     @Override
-    protected RssModel doInBackground(String...urlParams) {
+    protected ImageOfTheDayModel doInBackground(String...urlParams) {
         StringBuilder builder = new StringBuilder();
         String result = "";
+
         //load xml
         try {
             URL url = new URL(urlParams[0]);
@@ -70,13 +70,9 @@ public class RssLoader extends AsyncTask<String, Void, RssModel> {
         return parser.data;
     }
 
-    @Override
-    protected void onPreExecute() {
-
-    }
 
     @Override
-    protected void onPostExecute  (RssModel model) {
+    protected void onPostExecute  (ImageOfTheDayModel model) {
         presenter.onLoadedRss(model);
     }
 }

@@ -1,6 +1,9 @@
-package com.wtfcompany.nasafeed;
+package com.wtfcompany.nasafeed.presenter;
 
-import android.content.Context;
+import com.wtfcompany.nasafeed.RssLoader;
+import com.wtfcompany.nasafeed.view.ImageOfTheDayView;
+import com.wtfcompany.nasafeed.URLS;
+import com.wtfcompany.nasafeed.model.ImageOfTheDayModel;
 
 /**
  * Created by Ijin on 24.05.2017.
@@ -18,7 +21,7 @@ public class RssPresenter {
         new RssLoader(this).execute(URLS.ImageOfTheDay);
     }
 
-    public void onLoadedRss(RssModel model){
+    public void onLoadedRss(ImageOfTheDayModel model){
         view.stopProgress();
         view.showData(model);
     }

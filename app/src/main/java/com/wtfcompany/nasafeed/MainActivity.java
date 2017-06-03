@@ -1,22 +1,21 @@
 package com.wtfcompany.nasafeed;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.wtfcompany.nasafeed.model.ImageOfTheDayModel;
+import com.wtfcompany.nasafeed.presenter.RssPresenter;
+import com.wtfcompany.nasafeed.view.ImageOfTheDayView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements ImageOfTheDayView{
+public class MainActivity extends AppCompatActivity implements ImageOfTheDayView {
 
     @BindView(R.id.description)
     TextView description;
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements ImageOfTheDayView
     ProgressBar progressBar;
 
     @Override
-    public void showData(RssModel model) {
+    public void showData(ImageOfTheDayModel model) {
         description.setText(model.getDescription());
         date.setText(model.getDate());
         title.setText(model.getTitle());
