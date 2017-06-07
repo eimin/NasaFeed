@@ -13,7 +13,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class ImageOfTheDayParser extends DefaultHandler {
 
     private String currentElement;
-    public ImageOfTheDayModel data;
+    private ImageOfTheDayModel data;
     private boolean foundItem = false;
 
     private final static String itemTag = "item";
@@ -22,10 +22,17 @@ public class ImageOfTheDayParser extends DefaultHandler {
     private final static String imageLinkTag = "enclosure";
     private final static String titleTag = "title";
 
-
     public ImageOfTheDayParser() {
         super();
         data = new ImageOfTheDayModel();
+    }
+
+    public ImageOfTheDayModel getData() {
+        return data;
+    }
+
+    public void setData(ImageOfTheDayModel data) {
+        this.data = data;
     }
 
     @Override

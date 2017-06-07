@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements ImageOfTheDayView
         date.setText(model.getDate());
         title.setText(model.getTitle());
         image.setImageBitmap(model.getPicture());
+        setVisibility(true);
     }
 
     @Override
@@ -46,12 +47,26 @@ public class MainActivity extends AppCompatActivity implements ImageOfTheDayView
         progressBar.setVisibility(View.INVISIBLE);
     }
 
+    public void setVisibility(boolean isVisible){
+        if(isVisible){
+            description.setVisibility(View.VISIBLE);
+            date.setVisibility(View.VISIBLE);
+            title.setVisibility(View.VISIBLE);
+            image.setVisibility(View.VISIBLE);
+        }
+        else {
+            description.setVisibility(View.INVISIBLE);
+            date.setVisibility(View.INVISIBLE);
+            title.setVisibility(View.INVISIBLE);
+            image.setVisibility(View.INVISIBLE);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        setVisibility(false);
         RssPresenter presenter = new RssPresenter(this);
         CurrentContext.getInstance().setContext(this);
         presenter.loadRss();

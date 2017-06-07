@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.bumptech.glide.Glide;
 import com.wtfcompany.nasafeed.model.ImageOfTheDayModel;
+import com.wtfcompany.nasafeed.presenter.ImageOfTheDayPresenter;
 import com.wtfcompany.nasafeed.presenter.RssPresenter;
 
 import org.xml.sax.InputSource;
@@ -26,7 +27,7 @@ import javax.xml.parsers.SAXParserFactory;
  */
 
 public class RssLoader extends AsyncTask<String, Void, ImageOfTheDayModel> {
-    private RssPresenter presenter;
+    private ImageOfTheDayPresenter presenter;
 
     public RssLoader(RssPresenter presenter){
         this.presenter = presenter;
@@ -51,23 +52,23 @@ public class RssLoader extends AsyncTask<String, Void, ImageOfTheDayModel> {
         } catch(Exception e) {e.printStackTrace();}
 
         //parse xml
-        ImageOfTheDayParser parser = null;
+        ImageOfTheDayParser imageOfTheDayParser = null;
         try {
-            parser = new ImageOfTheDayParser();
+            imageOfTheDayParser = new ImageOfTheDayParser();
             InputSource source = new InputSource(new StringReader(result));
-            SAXParserFactory.newInstance().newSAXParser().parse(source, parser);
+            SAXParserFactory.newInstance().newSAXParser().parse(source, imageOfTheDayParser);
         } catch (ParserConfigurationException | SAXException | IOException e) {e.printStackTrace();}
 
         //load image
         Bitmap bitmap = null;
-        String url = parser.data.getImageUrl();
+        String url = imageOfTheDayParser.getData().getImageUrl();
         try {
             Context context = CurrentContext.getInstance().getContext();
             bitmap = Glide.with(context).load(url).asBitmap().into(500,500).get();
         } catch (InterruptedException | ExecutionException e) {e.printStackTrace();}
 
-        parser.data.setPicture(bitmap);
-        return parser.data;
+        imageOfTheDayParser.getData().setPicture(bitmap);
+        return imageOfTheDayParser.getData();
     }
 
 

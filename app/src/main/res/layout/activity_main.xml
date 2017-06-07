@@ -1,26 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@android:color/background_light"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:background="@color/colorPrimary">
-        <TextView
-            android:id="@+id/title"
-            android:text="A south polar pit or an Impact Crater?"
-            android:textSize="16sp"
-            android:textColor="@android:color/white"
-            android:gravity="center_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.v7.widget.Toolbar>
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -30,13 +14,10 @@
         android:visibility="visible"/>
 
     <ScrollView
-        android:id="@+id/swipe_refresh"
-        android:layout_below="@+id/toolbar"
+        android:id="@+id/scroll"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_margin="16dp"
         android:fillViewport="true">
 
         <LinearLayout
@@ -44,36 +25,50 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/title"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+
+                style="@style/textStyle"
+                android:text="A south polar pit or an Impact Crater? A south polar pit or an Impact Crater?"
+                android:textSize="16sp"/>
+
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
 
-                android:layout_centerHorizontal="true"
-
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="16dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/imageday" />
 
-
+                android:src="@drawable/imageday"/>
 
             <TextView
                 android:id="@+id/description"
-                android:text="Description Description Description Description Description Description Description Description Description Description Description long long long long long long long"
-                style="@style/textStyle"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/image"/>
+
+                android:layout_marginBottom="16dp"
+
+                style="@style/textStyle"
+                android:text="Description Description Description Description Description Description Description Description Description Description Description long long long long long long long" />
 
             <TextView
                 android:id="@+id/pub_date"
-                android:text="23 may 2017 "
-                style="@style/textStyle"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"/>
+
+                style="@style/textStyle"
+                android:text="23 may 2017 " />
+
             </LinearLayout>
     </ScrollView>
 

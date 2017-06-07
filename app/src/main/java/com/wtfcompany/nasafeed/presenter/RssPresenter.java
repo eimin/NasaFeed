@@ -9,7 +9,7 @@ import com.wtfcompany.nasafeed.model.ImageOfTheDayModel;
  * Created by Ijin on 24.05.2017.
  */
 
-public class RssPresenter {
+public class RssPresenter implements ImageOfTheDayPresenter{
     private ImageOfTheDayView view;
 
     public RssPresenter(ImageOfTheDayView view){
@@ -21,6 +21,7 @@ public class RssPresenter {
         new RssLoader(this).execute(URLS.ImageOfTheDay);
     }
 
+    @Override
     public void onLoadedRss(ImageOfTheDayModel model){
         view.stopProgress();
         view.showData(model);
