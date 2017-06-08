@@ -1,22 +1,21 @@
 package com.wtfcompany.nasafeed;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.wtfcompany.nasafeed.model.ImageOfTheDayModel;
+import com.wtfcompany.nasafeed.presenter.RssPresenter;
+import com.wtfcompany.nasafeed.view.ImageOfTheDayView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements ImageOfTheDayView{
+public class MainActivity extends AppCompatActivity implements ImageOfTheDayView {
 
     @BindView(R.id.description)
     TextView description;
@@ -30,11 +29,12 @@ public class MainActivity extends AppCompatActivity implements ImageOfTheDayView
     ProgressBar progressBar;
 
     @Override
-    public void showData(RssModel model) {
+    public void showData(ImageOfTheDayModel model) {
         description.setText(model.getDescription());
         date.setText(model.getDate());
         title.setText(model.getTitle());
         image.setImageBitmap(model.getPicture());
+        setVisibility(true);
     }
 
     @Override
@@ -47,12 +47,26 @@ public class MainActivity extends AppCompatActivity implements ImageOfTheDayView
         progressBar.setVisibility(View.INVISIBLE);
     }
 
+    public void setVisibility(boolean isVisible){
+        if(isVisible){
+            description.setVisibility(View.VISIBLE);
+            date.setVisibility(View.VISIBLE);
+            title.setVisibility(View.VISIBLE);
+            image.setVisibility(View.VISIBLE);
+        }
+        else {
+            description.setVisibility(View.INVISIBLE);
+            date.setVisibility(View.INVISIBLE);
+            title.setVisibility(View.INVISIBLE);
+            image.setVisibility(View.INVISIBLE);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        setVisibility(false);
         RssPresenter presenter = new RssPresenter(this);
         CurrentContext.getInstance().setContext(this);
         presenter.loadRss();

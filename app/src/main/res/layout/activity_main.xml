@@ -1,60 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:id="@+id/swipe_refresh"
-    android:layout_height="match_parent"
+
+<RelativeLayout
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fillViewport="true"
-    android:layout_marginTop="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:paddingBottom="10dp"
-    android:background="@android:color/background_light">
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <RelativeLayout
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"/>
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_margin="16dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/title"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+
+                style="@style/textStyle"
+                android:text="A south polar pit or an Impact Crater? A south polar pit or an Impact Crater?"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:layout_marginBottom="16dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/imageday"/>
+
+
+            <TextView
+                android:id="@+id/description"
+
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
 
-                <ProgressBar
-                    android:id="@+id/progress_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"/>
+                android:layout_marginBottom="16dp"
 
-                <TextView
-                    android:id="@+id/pub_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/textStyle" />
+                style="@style/textStyle"
+                android:text="Description Description Description Description Description Description Description Description Description Description Description long long long long long long long" />
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/textStyle"
-                    android:layout_below="@id/pub_date"
-                    android:layout_marginTop="10dp" />
+            <TextView
+                android:id="@+id/pub_date"
 
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="match_parent"
-                    android:layout_height="320dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@+id/title"
+                style="@style/textStyle"
+                android:text="23 may 2017 " />
 
-                    android:layout_centerHorizontal="true"
+            </LinearLayout>
+    </ScrollView>
 
-                    android:scaleType="fitXY"
-                    android:adjustViewBounds="true" />
+</RelativeLayout>
 
-                <TextView
-                    android:id="@+id/description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/textStyle"
-                    android:layout_below="@+id/image"/>
-            </RelativeLayout>
 
-</ScrollView>

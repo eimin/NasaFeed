@@ -1,12 +1,12 @@
 package com.wtfcompany.nasafeed;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.wtfcompany.nasafeed.model.ImageOfTheDayModel;
+import com.wtfcompany.nasafeed.presenter.ImageOfTheDayPresenter;
+import com.wtfcompany.nasafeed.presenter.RssPresenter;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -26,17 +26,18 @@ import javax.xml.parsers.SAXParserFactory;
  * Created by Ijin on 23.04.2017.
  */
 
-public class RssLoader extends AsyncTask<String, Void, RssModel> {
-    private RssPresenter presenter;
+public class RssLoader extends AsyncTask<String, Void, ImageOfTheDayModel> {
+    private ImageOfTheDayPresenter presenter;
 
     public RssLoader(RssPresenter presenter){
         this.presenter = presenter;
     }
 
     @Override
-    protected RssModel doInBackground(String...urlParams) {
+    protected ImageOfTheDayModel doInBackground(String...urlParams) {
         StringBuilder builder = new StringBuilder();
         String result = "";
+
         //load xml
         try {
             URL url = new URL(urlParams[0]);
@@ -51,32 +52,28 @@ public class RssLoader extends AsyncTask<String, Void, RssModel> {
         } catch(Exception e) {e.printStackTrace();}
 
         //parse xml
-        ImageOfTheDayParser parser = null;
+        ImageOfTheDayParser imageOfTheDayParser = null;
         try {
-            parser = new ImageOfTheDayParser();
+            imageOfTheDayParser = new ImageOfTheDayParser();
             InputSource source = new InputSource(new StringReader(result));
-            SAXParserFactory.newInstance().newSAXParser().parse(source, parser);
+            SAXParserFactory.newInstance().newSAXParser().parse(source, imageOfTheDayParser);
         } catch (ParserConfigurationException | SAXException | IOException e) {e.printStackTrace();}
 
         //load image
         Bitmap bitmap = null;
-        String url = parser.data.getImageUrl();
+        String url = imageOfTheDayParser.getData().getImageUrl();
         try {
             Context context = CurrentContext.getInstance().getContext();
             bitmap = Glide.with(context).load(url).asBitmap().into(500,500).get();
         } catch (InterruptedException | ExecutionException e) {e.printStackTrace();}
 
-        parser.data.setPicture(bitmap);
-        return parser.data;
+        imageOfTheDayParser.getData().setPicture(bitmap);
+        return imageOfTheDayParser.getData();
     }
 
-    @Override
-    protected void onPreExecute() {
-
-    }
 
     @Override
-    protected void onPostExecute  (RssModel model) {
+    protected void onPostExecute  (ImageOfTheDayModel model) {
         presenter.onLoadedRss(model);
     }
 }
