@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
  * Created by Ijin on 23.04.2017.
  */
 
-public class ImageOfTheDayModel {
+public class RSSItem {
 
     private String date;
     private String title;
@@ -14,7 +14,7 @@ public class ImageOfTheDayModel {
     private Bitmap picture;
     private String imageUrl;
 
-    public ImageOfTheDayModel(){
+    public RSSItem(){
         date = "";
         title = "";
         description = "";
@@ -58,7 +58,18 @@ public class ImageOfTheDayModel {
         this.description = description;
     }
 
-    public void setPicture(Bitmap picture) {
+    public void setImage(Bitmap picture) {
         this.picture = picture;
+    }
+
+    @Override
+    public String toString() {
+        return "RSSItem{" +
+                "date='" + date + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", picture=" + picture +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}';
     }
 }

@@ -1,14 +1,12 @@
 package com.wtfcompany.nasafeed;
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.wtfcompany.nasafeed.model.ImageOfTheDayModel;
+import com.wtfcompany.nasafeed.model.RSSItem;
 import com.wtfcompany.nasafeed.presenter.RssPresenter;
 import com.wtfcompany.nasafeed.view.ImageOfTheDayView;
 
@@ -29,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements ImageOfTheDayView
     ProgressBar progressBar;
 
     @Override
-    public void showData(ImageOfTheDayModel model) {
+    public void showData(RSSItem model) {
         description.setText(model.getDescription());
         date.setText(model.getDate());
         title.setText(model.getTitle());
@@ -61,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements ImageOfTheDayView
             image.setVisibility(View.INVISIBLE);
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
