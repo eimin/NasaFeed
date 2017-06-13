@@ -1,9 +1,9 @@
 package com.wtfcompany.nasafeed.presenter;
 
-import com.wtfcompany.nasafeed.RssLoader;
+import com.wtfcompany.nasafeed.AsyncLoader;
 import com.wtfcompany.nasafeed.view.ImageOfTheDayView;
 import com.wtfcompany.nasafeed.URLS;
-import com.wtfcompany.nasafeed.model.ImageOfTheDayModel;
+import com.wtfcompany.nasafeed.model.RSSItem;
 
 /**
  * Created by Ijin on 24.05.2017.
@@ -18,11 +18,11 @@ public class RssPresenter implements ImageOfTheDayPresenter{
 
     public void loadRss(){
         view.showProgress();
-        new RssLoader(this).execute(URLS.ImageOfTheDay);
+        new AsyncLoader(this).execute(URLS.ImageOfTheDay);
     }
 
     @Override
-    public void onLoadedRss(ImageOfTheDayModel model){
+    public void onLoadedRss(RSSItem model){
         view.stopProgress();
         view.showData(model);
     }
